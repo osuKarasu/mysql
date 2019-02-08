@@ -1,8 +1,3 @@
--- SQL Dump
---
--- Client :  localhost
--- Généré le :  Mer 15 Août 2018 à 17:14
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -566,6 +561,33 @@ CREATE TABLE `scores` (
   `pp` float DEFAULT '0',
   `beatmaps` varchar(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `scores_removed`
+--
+
+CREATE TABLE `scores_removed` (
+  `id` int(11) NOT NULL,
+  `beatmap_md5` varchar(32) NOT NULL DEFAULT '',
+  `userid` int(11) NOT NULL,
+  `score` bigint(20) DEFAULT NULL,
+  `max_combo` int(11) NOT NULL DEFAULT '0',
+  `full_combo` tinyint(1) NOT NULL DEFAULT '0',
+  `mods` int(11) NOT NULL DEFAULT '0',
+  `300_count` int(11) NOT NULL DEFAULT '0',
+  `100_count` int(11) NOT NULL DEFAULT '0',
+  `50_count` int(11) NOT NULL DEFAULT '0',
+  `katus_count` int(11) NOT NULL DEFAULT '0',
+  `gekis_count` int(11) NOT NULL DEFAULT '0',
+  `misses_count` int(11) NOT NULL DEFAULT '0',
+  `time` varchar(18) NOT NULL DEFAULT '',
+  `play_mode` tinyint(4) NOT NULL DEFAULT '0',
+  `completed` tinyint(11) NOT NULL DEFAULT '0',
+  `accuracy` float(15,12) DEFAULT NULL,
+  `pp` float DEFAULT '0',
+  `beatmaps` varchar(32) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -627,8 +649,14 @@ CREATE TABLE `users` (
   `donor_expire` int(11) NOT NULL DEFAULT '0',
   `flags` int(11) NOT NULL DEFAULT '0',
   `notes` text,
-  `ban_datetime` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `ban_datetime` text,
+  `strikes` int(11) NOT NULL DEFAULT '0',
+  `nwipes` int(11) NOT NULL DEFAULT '0',
+  `cwipes` int(11) NOT NULL DEFAULT '0',
+  `achievements_version` int(11) NOT NULL DEFAULT '6',
+  `flags_reason` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1048 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -703,7 +731,7 @@ CREATE TABLE `users_stats` (
   `pp_mania` int(11) NOT NULL DEFAULT '0',
   `badges_shown` varchar(24) NOT NULL DEFAULT '1,0,0,0,0,0',
   `safe_title` tinyint(4) NOT NULL DEFAULT '0',
-  `userpage_content` mediumtext,
+  `userpage_content` varchar(5120) DEFAULT NULL,
   `play_style` smallint(6) NOT NULL DEFAULT '0',
   `favourite_mode` tinyint(4) NOT NULL DEFAULT '0',
   `custom_badge_icon` varchar(32) NOT NULL DEFAULT '',
@@ -903,6 +931,11 @@ ALTER TABLE `reports`
 --
 ALTER TABLE `scores`
   ADD PRIMARY KEY (`id`);
+--
+-- Index pour la table `scores_removed`
+--
+ALTER TABLE `scores_removed`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `system_settings`
@@ -948,12 +981,12 @@ ALTER TABLE `users_badges`
 -- AUTO_INCREMENT pour la table `badges`
 --
 ALTER TABLE `badges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `bancho_channels`
 --
 ALTER TABLE `bancho_channels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `bancho_messages`
 --
@@ -968,7 +1001,7 @@ ALTER TABLE `bancho_private_messages`
 -- AUTO_INCREMENT pour la table `bancho_settings`
 --
 ALTER TABLE `bancho_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `bancho_tokens`
 --
@@ -978,7 +1011,7 @@ ALTER TABLE `bancho_tokens`
 -- AUTO_INCREMENT pour la table `beatmaps`
 --
 ALTER TABLE `beatmaps`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56049;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `beatmaps_names`
 --
@@ -998,7 +1031,7 @@ ALTER TABLE `docs`
 -- AUTO_INCREMENT pour la table `hw_user`
 --
 ALTER TABLE `hw_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4518;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `osin_client`
 --
@@ -1008,22 +1041,22 @@ ALTER TABLE `osin_client`
 -- AUTO_INCREMENT pour la table `password_recovery`
 --
 ALTER TABLE `password_recovery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `privileges_groups`
 --
 ALTER TABLE `privileges_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `rank_requests`
 --
 ALTER TABLE `rank_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `remember`
 --
 ALTER TABLE `remember`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `reports`
 --
@@ -1033,32 +1066,37 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT pour la table `scores`
 --
 ALTER TABLE `scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7886;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT pour la table `scores_removed`
+--
+ALTER TABLE `scores_removed`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `system_settings`
 --
 ALTER TABLE `system_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1377;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `users_relationships`
 --
 ALTER TABLE `users_relationships`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT pour la table `users_stats`
 --
 ALTER TABLE `users_stats`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1377;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
