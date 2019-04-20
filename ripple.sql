@@ -297,7 +297,7 @@ CREATE TABLE IF NOT EXISTS `hw_user` (
   `occurencies` int(11) NOT NULL DEFAULT '0',
   `activated` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `userid` (`userid`)
+  UNIQUE KEY `userid_ip` (`userid`, `ip`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 
